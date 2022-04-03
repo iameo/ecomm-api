@@ -6,6 +6,9 @@ from accounts.models import ProductManager
 
 
 class Product(models.Model):
+    """
+    This is the Product Model which is populated by the Seller
+    """
     product_name = models.CharField(max_length=200)
     product_image = models.ImageField()
     product_description = models.CharField(max_length=500)
