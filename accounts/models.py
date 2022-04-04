@@ -23,6 +23,9 @@ _phone_regex = RegexValidator(
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    """
+    CustomUser is the abstract base user class for every other user in the API (customer, seller, etc)
+    """
     email = models.EmailField(max_length=300, unique=True)
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
@@ -62,6 +65,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 
 class ProductBuyer(models.Model):
+    """
+    The ProductBuyer model represents the customer
+    """
 
     acc_type = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True, related_name='customer')
     purchased_counts = models.IntegerField(default=0)
@@ -128,4 +134,3 @@ class Rating(models.Model):
 
     def __str__(self):
         return '{} rated {}({} ID: {}) {} stars'.format(self.user.full_name, self.artisan.full_name, self.artisan.service_type, self.artisan.acc_type.id, self.rate)
-        
