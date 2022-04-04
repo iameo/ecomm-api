@@ -1,13 +1,13 @@
+from unicodedata import category
 from django.db import models
 
-from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
-from accounts.models import ProductBuyer
-# Create your models here.
+
+from utils import TimeStampMixin
 
 
-class Product(models.Model):
+class Product(TimeStampMixin):
     """
     This is the Product Model which is populated by the Seller
     """
@@ -19,9 +19,11 @@ class Product(models.Model):
     ratings = models.FloatField(default=0.0)
     shipping = models.CharField(max_length=200)
     details = models.TextField(max_length=5000)
+    category = models.CharField(max_length=50, default='others')
+    slug = models.SlugField(max_length=200)
 
     def __str__(self):
-        return f"{self.name} - {self.description[:20]} (Seller: {self.price})"
+        return f"{self.name} - {self.description[:20]} (Seller: {self.products})"
 
     class Meta:
         db_table = 'product_db'
