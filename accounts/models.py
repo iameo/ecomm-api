@@ -13,6 +13,8 @@ from accounts.managers import CustomUserManager
 
 from django.urls import reverse
 
+from services.models import Product
+
 
 _phone_regex = RegexValidator(
         regex=r"\+?1?\d{10,14}$",
@@ -50,23 +52,25 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         '''
         send_mail(subject, message, from_email, [self.email], **kwargs)
     
+    class Meta:
+        db_table = 'auth_user'
+
+    def __str__(self):
+        return f"{self.email}"
 
     objects = CustomUserManager()
 
 
-class Serviceser(models.Model):
+class ProductBuyer(models.Model):
 
-    acc_type = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True, related_name='product_buyer')
-    # REQUIRE_FIELDS = ('first_name', 'last_name', 'email', 'phone', 'location')
-    # class Meta:
-    #     verbose_name = ('sf_user')
-    #     verbose_name_plural = ('sf_users')
+    acc_type = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True, related_name='customer')
+    purchased_counts = models.IntegerField(default=0)
 
     # def get_absolute_url(self): 
     #     return reverse('myprofile', args=[int(self.acc_type.id)])
 
     def __str__(self):
-        return '{}'.format(self.full_name)
+        return '{}'.format(self.acc_type.full_name)
 
 
 
@@ -75,12 +79,13 @@ class ProductManager(models.Model):
     """
     This model handles the seller of a product
     """
-    acc_type = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True, related_name="product_manager")
+    acc_type = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True, related_name="product_owner")
 
     ratings = models.FloatField(default=0.0)
     last_service = models.DateField('last_service_time', blank=True, null=True)
     availability = models.BooleanField(default=False)
-    rendered_services = models.ManyToManyField(CustomUser, blank=True)
+    rendered_services = models.ManyToManyField(ProductBuyer, blank=True)
+    products = models.ManyToManyField(Product, blank=True, related_name='products')
 
     @property
     def average_ratings(self):
@@ -110,68 +115,17 @@ class ProductManager(models.Model):
         return reverse('myprofile', args=[int(self.acc_type.id)])
 
     def __str__(self):
-        return '{} - {}: availability => {}'.format(self.full_name, self.service_type, self.rendered_services)
+        return '{} (availability => {} \t ratings => {})'.format(self.acc_type.full_name, self.availability, self.ratings)
     
-
-
-class Comment(models.Model):
-
-    review_on = models.ForeignKey(ProductManager, on_delete=models.CASCADE, related_name='artisan_comment')
-    user = models.ForeignKey(Serviceser, on_delete=models.CASCADE, related_name="user_comment")
-    body = models.TextField()
-    created_on = models.DateTimeField(auto_now_add=True)
-    active = models.BooleanField(default=True)
-
     class Meta:
-        ordering = ['created_on']
-
-    def dp(self):
-        return self.user.acc_type.display_photo
-
-    def __str__(self):
-        return 'Comment {} by {}'.format(self.body, self.user.full_name)
-
+        ordering = ['-acc_type__joined']
 
 class Rating(models.Model):
 
     artisan = models.ForeignKey(ProductManager, on_delete=models.CASCADE)
-    user = models.ForeignKey(Serviceser, on_delete=models.CASCADE)
+    user = models.ForeignKey(ProductBuyer, on_delete=models.CASCADE)
     rate = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(5.0)])
 
     def __str__(self):
         return '{} rated {}({} ID: {}) {} stars'.format(self.user.full_name, self.artisan.full_name, self.artisan.service_type, self.artisan.acc_type.id, self.rate)
-
-
-# @receiver(post_save, sender=CustomUser)
-# def create_user_profile(sender, instance, created, **kwargs):
-#     # if Created is true (Means Data Inserted)
-#     if created:
         
-#         # Check the user_type and insert the data in respective tables
-#         # if instance.user_type == "SF_ARTISAN":
-#         Artisan.objects.create(acc_type=instance,
-#                         service_type = "",
-#                         rate=0.0,
-#                         availability=True
-#                         )
-#         # if instance.user_type == "SF_USER":
-#         #     Serviceser.objects.create(acc_type=instance)
-#     instance.artisan.save()
-    
-# @receiver(post_save, sender=CustomUser)
-# def save_user_profile(sender, instance, **kwargs):
-#     print("========save", instance.user_type, kwargs, instance)
-#     if instance.user_type == "SF_ARTISAN":
-#         instance.artisan.save()
-#     if instance.user_type == "SF_USER":
-#         instance.serviceser.save()
-
-
-# # @receiver(post_save, sender=User)
-# # def create_profile(sender, instance, created, **kwargs):
-# #     if created:
-# #         Profile.objects.create(user=instance)
-
-# # @receiver(post_save, sender=User)
-# # def save_profile(sender, instance, **kwargs):
-# #     instance.profile.save()
