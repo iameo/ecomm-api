@@ -59,7 +59,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         db_table = 'auth_user'
 
     def __str__(self):
-        return f"{self.email}"
+        return f'{self.email}'
 
     objects = CustomUserManager()
 
@@ -76,7 +76,7 @@ class ProductBuyer(models.Model):
     #     return reverse('myprofile', args=[int(self.acc_type.id)])
 
     def __str__(self):
-        return '{}'.format(self.acc_type.full_name)
+        return f'{self.acc_type.full_name}'
 
 
 
@@ -111,7 +111,6 @@ class ProductManager(models.Model):
 
     @property
     def done_job(self):
-        print("===>", self.rendered_services)
         if self.rendered_services:
             return self.rendered_services.all()
         else:
@@ -126,11 +125,12 @@ class ProductManager(models.Model):
     class Meta:
         ordering = ['-acc_type__joined']
 
-class Rating(models.Model):
 
-    artisan = models.ForeignKey(ProductManager, on_delete=models.CASCADE)
-    user = models.ForeignKey(ProductBuyer, on_delete=models.CASCADE)
+class SellerRating(models.Model):
+
+    seller = models.ForeignKey(ProductManager, on_delete=models.CASCADE)
+    customer = models.ForeignKey(ProductBuyer, on_delete=models.CASCADE)
     rate = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(5.0)])
 
     def __str__(self):
-        return '{} rated {}({} ID: {}) {} stars'.format(self.user.full_name, self.artisan.full_name, self.artisan.service_type, self.artisan.acc_type.id, self.rate)
+        return f'{self.customer.acc_type.full_name} rated Seller({self.seller.acc_type.full_name}) {self.rate} stars'
