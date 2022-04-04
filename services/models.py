@@ -1,7 +1,9 @@
 from django.db import models
 
-# from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model
 from django.conf import settings
+from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
+from accounts.models import ProductBuyer
 # Create your models here.
 
 
@@ -17,7 +19,6 @@ class Product(models.Model):
     ratings = models.FloatField(default=0.0)
     shipping = models.CharField(max_length=200)
     details = models.TextField(max_length=5000)
-    # seller = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="products")
 
     def __str__(self):
         return f"{self.name} - {self.description[:20]} (Seller: {self.price})"
@@ -44,3 +45,13 @@ class ProductOrder(models.Model):
     order_date = models.DateTimeField()
     address = models.CharField(max_length=500)
     ordered = models.BooleanField(default=False)
+
+
+class ProductRating(models.Model):
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    rate = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(5.0)])
+
+    def __str__(self):
+        return f'{self.user.full_name} rated Product({self.product.name}) {self.rate} stars'
