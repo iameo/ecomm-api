@@ -12,21 +12,26 @@ class Product(TimeStampMixin):
     This is the Product Model which is populated by the Seller
     """
     name = models.CharField(max_length=200)
-    image = models.ImageField()
     description = models.CharField(max_length=500)
     quantity = models.IntegerField(default=1, blank=False)
     price = models.DecimalField(decimal_places=2, max_digits=15)
     ratings = models.FloatField(default=0.0)
-    shipping = models.CharField(max_length=200)
+    manufacturer = models.CharField(max_length=200)
     details = models.TextField(max_length=5000)
     category = models.CharField(max_length=50, default='others')
     slug = models.SlugField(max_length=200)
 
     def __str__(self):
-        return f"{self.name} - {self.description[:20]} (Seller: {self.products})"
+        return f"{self.name} - {self.description[:20]}"
 
     class Meta:
         db_table = 'product_db'
+
+
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE, related_name='product_images')
+    images = models.ImageField(upload_to='products/')
 
 
 class ProductItem(models.Model):
@@ -38,6 +43,7 @@ class ProductItem(models.Model):
 
     def __str__(self):
         return f"ProductItem({self.quantity} x {self.product.name})"
+
 
 class ProductOrder(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
