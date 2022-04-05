@@ -4,7 +4,7 @@ migrations/
 */migrations/
 */migrations/*
 
-!artisan/
+products/
 
 !*.png
 !*.jpg
