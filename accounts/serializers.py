@@ -8,7 +8,7 @@ class ProductSellerSerializer(serializers.ModelSerializer):
         model = ProductManager
         fields = ['availability', 'ratings', 'products', 'acc_type', 'last_service', 'rendered_services']
 
-
+  
 class ProductBuyerSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductBuyer
