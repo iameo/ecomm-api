@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 
 class ProductSellerViewSet(viewsets.ViewSet):
     """
-    API endpoint that allows product sellers to be viewed.
+    API endpoint that allows product sellers to be viewed (and their products and customers)
     """
     def list(self, request):
         queryset = ProductManager.objects.all()
