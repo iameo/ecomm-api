@@ -91,7 +91,7 @@ class ProductManager(models.Model):
     last_service = models.DateField('last_service_time', blank=True, null=True)
     availability = models.BooleanField(default=False)
     rendered_services = models.ManyToManyField(ProductBuyer, blank=True)
-    products = models.ManyToManyField(Product, blank=True, related_name='products')
+    products = models.ManyToManyField(Product, blank=True, related_name='seller')
 
     @property
     def average_ratings(self):
@@ -127,7 +127,6 @@ class ProductManager(models.Model):
 
 
 class SellerRating(models.Model):
-
     seller = models.ForeignKey(ProductManager, on_delete=models.CASCADE)
     customer = models.ForeignKey(ProductBuyer, on_delete=models.CASCADE)
     rate = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(5.0)])
