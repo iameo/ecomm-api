@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ProductBuyer, ProductManager, CustomUser
+from .models import ProductBuyer, ProductManager, CustomUser, SellerRating
 
 # Register your models here.
 
@@ -10,7 +10,13 @@ class BuyerAdmin(admin.ModelAdmin):
 
 @admin.register(ProductManager)
 class SellerAdmin(admin.ModelAdmin):
-    readonly_fields = ('availability', 'ratings', 'last_service', 'rendered_services')
+    readonly_fields = ('availability', 'ratings', 'last_service')
     date_hierarchy = 'acc_type__joined'
 
+@admin.register(SellerRating)
+class SellerRatingAdmin(admin.ModelAdmin):
+    # readonly_fields = ('rate',)
+    pass
+
 admin.site.register(CustomUser)
+
