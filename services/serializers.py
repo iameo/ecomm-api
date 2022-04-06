@@ -8,10 +8,10 @@ from accounts.serializers import ProductSellerSerializer
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        # read_only_fields = ('seller',)
+        # read_only_fields = ('slug',)
         fields = [
             'id', 'name', 'slug','description', 'quantity', 'price', \
-            'ratings', 'details'
+            'ratings', 'details', 'seller', 'slug'
             ]
 
 
