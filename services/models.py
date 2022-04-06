@@ -51,7 +51,7 @@ class ProductOrder(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     products = models.ManyToManyField(ProductItem)
-    reference_code = models.CharField(max_length=20, blank=True, null=True)
+    reference_code = models.CharField(max_length=20, blank=True, null=True, editable=False)
     order_date = models.DateTimeField(auto_now_add=True)
     address = models.CharField(max_length=500)
     ordered = models.BooleanField(default=False)
