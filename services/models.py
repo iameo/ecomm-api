@@ -5,6 +5,7 @@ from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 
 from utils import TimeStampMixin
+from django.utils.text import slugify
 
 
 class Product(TimeStampMixin):
@@ -63,3 +64,20 @@ class ProductRating(models.Model):
 
     def __str__(self):
         return f'{self.user.full_name} rated Product({self.product.name}) {self.rate} stars'
+
+
+
+
+#signals
+def product_pre_save(sender, instance, *args, **kwargs):
+    if instance.slug is None:
+        instance.slug = slugify(instance.name)
+    if instance.category is None:
+        instance.category = 'others'
+models.signals.pre_save.connect(product_pre_save, sender=Product)
+
+def product_post_save(sender, instance, created, *args, **kwargs):
+    if created and instance.slug is None:
+        instance.slug = slugify(instance.name)
+        instance.save()
+models.signals.post_save.connect(product_post_save, sender=Product)
