@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin, User
@@ -77,6 +78,9 @@ class ProductBuyer(models.Model):
 
     def __str__(self):
         return f'{self.acc_type.full_name}'
+    
+    class Meta:
+        verbose_name = 'Customer'
 
 
 
@@ -124,6 +128,7 @@ class ProductManager(models.Model):
     
     class Meta:
         ordering = ['-acc_type__joined']
+        verbose_name = "Seller"
 
 
 class SellerRating(models.Model):
