@@ -6,6 +6,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator, RegexVa
 
 from utils import TimeStampMixin
 from django.utils.text import slugify
+from utils import generate_random_product_code
 
 
 class Product(TimeStampMixin):
@@ -51,9 +52,12 @@ class ProductOrder(models.Model):
                              on_delete=models.CASCADE)
     products = models.ManyToManyField(ProductItem)
     reference_code = models.CharField(max_length=20, blank=True, null=True)
-    order_date = models.DateTimeField()
+    order_date = models.DateTimeField(auto_now_add=True)
     address = models.CharField(max_length=500)
     ordered = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user} (Product Ref Code: {self.reference_code})"
 
 
 class ProductRating(models.Model):
@@ -81,3 +85,14 @@ def product_post_save(sender, instance, created, *args, **kwargs):
         instance.slug = slugify(instance.name)
         instance.save()
 models.signals.post_save.connect(product_post_save, sender=Product)
+
+
+def product_order_pre_save(sender, instance, *args, **kwargs):
+    if instance.reference_code is None:
+        instance.reference_code = generate_random_product_code('ordr', 15)
+models.signals.pre_save.connect(product_order_pre_save, sender=ProductOrder)
+
+def product_order_post_save(sender, instance, created, *args, **kwargs):
+    if created and instance.reference_code is None:
+        instance.reference_code = generate_random_product_code('ordr', 15)
+models.signals.post_save.connect(product_order_pre_save, sender=ProductOrder)
