@@ -138,3 +138,6 @@ class SellerRating(models.Model):
 
     def __str__(self):
         return f'{self.customer.acc_type.full_name} rated Seller({self.seller.acc_type.full_name}) {self.rate} stars'
+
+    class Meta:
+        verbose_name = "Seller's Rating"
