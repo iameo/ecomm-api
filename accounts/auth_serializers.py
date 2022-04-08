@@ -39,9 +39,8 @@ class CustomerRegistrationSerializer(serializers.ModelSerializer):
         user.is_productBuyer = True
         user.set_password(validated_data['password'])
         user.save()
-        customer = ProductBuyer.objects.get_or_create(acc_type=user)
-        print(customer)
-        # customer.save()
+        customer = ProductBuyer.objects.create(acc_type=user)
+        customer.save()
         return customer
 
 
