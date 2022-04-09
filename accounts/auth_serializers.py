@@ -39,13 +39,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
 class CustomerRegistrationSerializer(RegistrationSerializer):
     def create(self, validated_data):
-        user = CustomUser.objects.create(
-            email = validated_data['email'],
-            first_name = validated_data['first_name'],
-            last_name = validated_data['last_name'],
-            date_of_birth = validated_data['date_of_birth'],
-            is_productBuyer = True,
-        )
+        user = create_custom_user(True, False, validated_data)
         user.set_password(validated_data['password'])
         user.save()
         return user
@@ -53,13 +47,20 @@ class CustomerRegistrationSerializer(RegistrationSerializer):
 
 class SellerRegistrationSerializer(RegistrationSerializer):
     def create(self, validated_data):
-        user = CustomUser.objects.create(
-            email = validated_data['email'],
-            first_name = validated_data['first_name'],
-            last_name = validated_data['last_name'],
-            date_of_birth = validated_data['date_of_birth'],
-            is_productManager = True,
-        )
+        user = create_custom_user(False, True, validated_data)
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+
+
+def create_custom_user(customer: bool, seller: bool, data: dict) -> CustomUser:
+    user = CustomUser.objects.create(
+        email = data['email'],
+        first_name = data['first_name'],
+        last_name = data['last_name'],
+        date_of_birth = data['date_of_birth'],
+        is_productManager = seller,
+        is_productBuyer = customer
+)
+    return user
