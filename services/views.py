@@ -14,6 +14,7 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 
 from django.utils.text import slugify
+from rest_framework import serializers
 
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     """
@@ -28,7 +29,7 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
         product_name = serializer.validated_data.get('name')
 
         if quantity <= 0:
-            raise ValueError("Product Quantity can not be less than 1")
+            raise serializers.ValidationError("Product Quantity can not be less than 1")
 
         if slug is None:
             serializer.validated_data['slug'] = slugify(product_name)
@@ -47,7 +48,6 @@ class ProductDetailAPIView(generics.RetrieveAPIView):
     """
     queryset = Product.objects.all()
     serializer_class = ProductDetailSerializer
-
 
 
 class SellerProductViewSet(viewsets.ViewSet):
