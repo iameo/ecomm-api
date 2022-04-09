@@ -34,6 +34,11 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
             serializer.validated_data['slug'] = slugify(product_name)
         
         serializer.save()
+    
+    def list(self, request):
+        queryset = Product.objects.all().order_by('-created_at')
+        serializer = ProductSerializer(queryset, many=True, context={'request':request})
+        return Response(serializer.data)
 
 
 
