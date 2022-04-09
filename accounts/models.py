@@ -141,3 +141,19 @@ class SellerRating(models.Model):
 
     class Meta:
         verbose_name = "Seller's Rating"
+
+
+
+def user_build(user_type, instance):
+    instance_ = user_type.objects.create(acc_type=instance)
+    instance_.save()
+    return instance_
+
+def user_type_post_save(sender, instance, created, *args, **kwargs):
+    if created:
+        if instance.is_productManager:
+            user_build(ProductManager, instance)
+        if instance.is_productBuyer:
+            user_build(ProductBuyer, instance)
+models.signals.post_save.connect(user_type_post_save, sender=CustomUser)
+
