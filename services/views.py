@@ -41,8 +41,6 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
         return Response(serializer.data)
 
 
-
-
 class ProductDetailAPIView(generics.RetrieveAPIView):
     """
     API endpoint for a particular product to be viewed
@@ -50,15 +48,6 @@ class ProductDetailAPIView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductDetailSerializer
 
-
-class ProductViewSet(viewsets.ViewSet):
-    """
-    API endpoint that allows products to be viewed.
-    """
-    def list(self, request):
-        queryset = Product.objects.all().order_by('-created_at')
-        serializer = ProductSerializer(queryset, many=True, context={'request':request})
-        return Response(serializer.data)
 
 
 class SellerProductViewSet(viewsets.ViewSet):
@@ -69,6 +58,8 @@ class SellerProductViewSet(viewsets.ViewSet):
         queryset = ProductManager.objects.all().order_by('-acc_type__joined')
         serializer = SellerSerializer(queryset, many=True, context={'request':request})
         return Response(serializer.data)
+
+
 
 product_detail_view = ProductDetailAPIView.as_view()
 product_list_create_view = ProductListCreateAPIView.as_view(queryset=Product.objects.all(), serializer_class=ProductSerializer)
