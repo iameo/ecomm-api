@@ -1,6 +1,7 @@
 from django.db import models
 import random
 import string
+from datetime import datetime
 
 
 class TimeStampMixin(models.Model):
@@ -25,3 +26,10 @@ def generate_id(n, is_alphanum=True):
 
 def generate_random_product_code(kind, n):
     return f'{kind}-{generate_id(n)}'
+
+
+def calculate_age(birth_date):
+    """a generic function that returns a person's age"""
+    today = datetime.today()
+    age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+    return age
