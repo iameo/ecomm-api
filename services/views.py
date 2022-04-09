@@ -18,7 +18,7 @@ from rest_framework import serializers
 
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     """
-    API endpoint for creating products
+    API endpoint for creating and listing products
     """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
