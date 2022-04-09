@@ -124,7 +124,7 @@ class ProductManager(models.Model):
         return reverse('myprofile', args=[int(self.acc_type.id)])
 
     def __str__(self):
-        return '{} (availability => {} \t ratings => {})'.format(self.acc_type.full_name, self.availability, self.ratings)
+        return f'{self.acc_type.full_name} (availability: {self.availability} | ratings: {self.ratings})'
     
     class Meta:
         ordering = ['-acc_type__joined']
@@ -146,6 +146,8 @@ class SellerRating(models.Model):
 
 def user_build(user_type, instance):
     instance_ = user_type.objects.create(acc_type=instance)
+    if hasattr(instance_, 'availability'):
+        instance_.availability = True
     instance_.save()
     return instance_
 
