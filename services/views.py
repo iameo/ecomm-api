@@ -16,6 +16,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.text import slugify
 from rest_framework import serializers
 
+
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     """
     API endpoint for creating and listing products
@@ -42,7 +43,7 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
         return Response(serializer.data)
 
 
-class ProductDetailAPIView(generics.RetrieveAPIView):
+class ProductRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
     """
     API endpoint for a particular product to be viewed
     """
@@ -61,5 +62,5 @@ class SellerProductViewSet(viewsets.ViewSet):
 
 
 
-product_detail_view = ProductDetailAPIView.as_view()
+product_detail_view = ProductRUDAPIView.as_view()
 product_list_create_view = ProductListCreateAPIView.as_view(queryset=Product.objects.all(), serializer_class=ProductSerializer)
