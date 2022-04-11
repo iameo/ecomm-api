@@ -20,7 +20,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(ProductItem)
 class ProductItemAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('user','product','ordered','quantity')
 
 @admin.register(ProductOrder)
 class ProductOrderAdmin(admin.ModelAdmin):
