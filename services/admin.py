@@ -32,4 +32,4 @@ class ProductRatingAdmin(admin.ModelAdmin):
 
 @admin.register(ProductImage)
 class ProductImageAdmin(admin.ModelAdmin):
-    pass
+        list_display = ('product', 'images')
