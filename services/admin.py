@@ -28,7 +28,7 @@ class ProductOrderAdmin(admin.ModelAdmin):
 
 @admin.register(ProductRating)
 class ProductRatingAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('user','product','rate', '__str__')
 
 @admin.register(ProductImage)
 class ProductImageAdmin(admin.ModelAdmin):
