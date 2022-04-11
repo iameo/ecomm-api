@@ -19,7 +19,7 @@ from services.models import Product
 
 _phone_regex = RegexValidator(
         regex=r"\+?1?\d{10,14}$",
-        message="Phony"
+        message="Call Number format not supported (example: +2348100000000)"
     )
 
 
