@@ -5,9 +5,18 @@ from .models import ProductBuyer, ProductManager, CustomUser, SellerRating
 
 @admin.register(ProductBuyer)
 class BuyerAdmin(admin.ModelAdmin):
-    
+    list_display = ('acc_type', 'name', 'purchased_counts', 'phone')
     readonly_fields = ('purchased_counts',)
     date_hierarchy = 'acc_type__joined'
+    
+    @admin.display(empty_value='')
+    def name(self, obj):
+        return obj.acc_type.full_name
+    
+    @admin.display(empty_value='')
+    def phone(self, obj):
+        return obj.acc_type.phone
+    
 
 @admin.register(ProductManager)
 class SellerAdmin(admin.ModelAdmin):
