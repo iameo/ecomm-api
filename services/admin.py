@@ -10,6 +10,7 @@ class ProductImageAdmin(admin.StackedInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
+    list_display = ('name','quantity','price','manufacturer','category')
     prepopulated_fields = {'slug': ("name",)}
     readonly_fields = ('ratings',)
     inlines = [ProductImageAdmin]
