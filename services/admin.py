@@ -24,7 +24,7 @@ class ProductItemAdmin(admin.ModelAdmin):
 
 @admin.register(ProductOrder)
 class ProductOrderAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('user','reference_code','order_date','address', 'ordered')
 
 @admin.register(ProductRating)
 class ProductRatingAdmin(admin.ModelAdmin):
