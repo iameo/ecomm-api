@@ -2,8 +2,10 @@ from rest_framework import serializers
 
 from accounts.models import ProductManager
 
-from .models import Product
+from .models import Product, ProductOrder
 from accounts.serializers import ProductSellerSerializer
+
+
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,3 +34,10 @@ class SellerSerializer(serializers.ModelSerializer):
         fields = [
             'acc_type', 'ratings', 'last_service', 'availability',\
             'rendered_services', 'products']
+
+
+class ProductOrderSerializer(serializers.ModelSerializer):
+    model = ProductOrder
+    fields = [
+        'id', 'address', 'ordered', 'reference_code', 'order_date', 'products'
+    ]
