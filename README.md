@@ -5,6 +5,8 @@ AN e-Commerce API for faux projects. This project is built with the intention of
 
 ![Create Product Owner](/imgs_show/create_seller.png "Product Owner Create")
 
+![View Sellers (postman)](/imgs_show/postman.png "View sellers")
+
 ___
 
 ### How to Use
