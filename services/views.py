@@ -20,6 +20,11 @@ from rest_framework import serializers
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     """
     API endpoint for creating and listing products
+
+    GET:
+        returns a list of products (including the sellers' info)
+    POST:
+        create a new product instance
     """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
