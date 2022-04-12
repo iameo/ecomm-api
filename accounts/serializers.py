@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 class ProductSellerSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductManager
-        fields = ['availability', 'ratings', 'products', 'acc_type', 'last_service', 'rendered_services']
+        fields = ['acc_type', 'availability', 'ratings', 'products', 'last_service', 'rendered_services']
 
   
 class ProductBuyerSerializer(serializers.ModelSerializer):
