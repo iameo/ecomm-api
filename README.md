@@ -3,6 +3,9 @@
 AN e-Commerce API for faux projects. This project is built with the intention of aiding CS college students in their final year, looking for an e-commerce API with minimal functionalities (such as: creating users -as *sellers* or *customers*-, creating products and a comment system) with full CRUD capabilities. While you get these functions, it is a *soft* introduction to **Django REST framework**, as well as utilizing Django **AbstractBaseUser** for User creation.
 
 
+![Create Product Owner](/imgs_show/create_seller.png "Product Owner Create")
+
+___
 
 ### How to Use
 - *Fork this project*
