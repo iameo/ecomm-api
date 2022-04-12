@@ -114,17 +114,6 @@ class ProductManager(models.Model):
         if self.availability:
             self.last_service = models.DateTimeField(default=timezone.now)
 
-
-    @property
-    def done_job(self):
-        if self.rendered_services:
-            return self.rendered_services.all()
-        else:
-            return None, 'ff'
-    
-    def get_absolute_url(self): 
-        return reverse('myprofile', args=[int(self.acc_type.id)])
-
     def __str__(self):
         return f'{self.acc_type.full_name} (availability: {self.availability} | ratings: {self.ratings})'
     
