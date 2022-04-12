@@ -1,11 +1,12 @@
 ## E-comm API
 
-AN e-Commerce API for faux projects. This project is built with the intention of aiding CS college students in their final year, looking for an e-commerce API with minimal functionalities (such as: creating users -as *sellers* or *customers*-, creating products and a comment system) with full CRUD capabilities.
+AN e-Commerce API for faux projects. This project is built with the intention of aiding CS college students in their final year, looking for an e-commerce API with minimal functionalities (such as: creating users -as *sellers* or *customers*-, creating products and a comment system) with full CRUD capabilities. While you get these functions, it is a *soft* introduction to **Django REST framework**, as well as utilizing Django **AbstractBaseUser** for User creation.
+
 
 
 ### How to Use
-- Fork this project
-- Download as ZIP, unzip and enter directory
+- *Fork this project*
+- clone repository, and enter directory
 - CMD: ```py manage.py makemigrations``` -> ```py manage.py migrate``` -> ```py manage.py runserver```
 - Access endpoints (As seen below)
   
