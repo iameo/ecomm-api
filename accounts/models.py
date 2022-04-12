@@ -99,10 +99,12 @@ class ProductManager(models.Model):
 
     @property
     def average_ratings(self):
+        curr = 0.0
         avg_star = self.rating_set.all()
         if avg_star:
-            return avg_star.aggregate(models.Avg('ratings'))['rate__avg']
-        return 0
+            curr = avg_star.aggregate(models.Avg('ratings'))['rate__avg']
+            return curr
+        return curr
 
     @property
     def rate_count(self):
