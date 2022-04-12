@@ -1,12 +1,24 @@
-from jsonschema import ValidationError
 from rest_framework import serializers
-from .models import ProductManager, ProductBuyer, CustomUser
+from .models import CustomUser, SellerRating
 from django.contrib.auth.password_validation import validate_password
 from rest_framework.validators import UniqueValidator
 
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework.permissions import AllowAny
+
 from utils import calculate_age
 
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    """TOKEN-Tolkien"""
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
 
+        token['name'] = user.full_name
+        return token
+
+
+    
 class RegistrationSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         required=True,
@@ -36,6 +48,16 @@ class RegistrationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("User must be at least 18 years old")
         return attrs
     
+    def update(self, instance, validated_data):
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.email = validated_data.get('email', instance.email)
+        instance.phone = validated_data.get('phone', instance.phone)
+        instance.location = validated_data.get('location', instance.location)
+        instance.date_of_birth = validated_data.get('date_of_birth', instance.date_of_birth)
+        instance.save()
+        return instance
+  
 
 class CustomerRegistrationSerializer(RegistrationSerializer):
     def create(self, validated_data):
