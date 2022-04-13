@@ -33,7 +33,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField(max_length=15, null=True, blank=True, validators=[_phone_regex])
     display_photo = models.ImageField(upload_to='images/users/', default='avatar-img.png')
     location = models.CharField(max_length=100, default="Nigeria")
-    date_of_birth = models.DateField('date_of_birth', null=False, blank=False)
+    date_of_birth = models.DateField('date_of_birth', null=True)
     joined = models.DateTimeField('date_joined', default=timezone.now)
 
     is_productManager = models.BooleanField(default=False)
