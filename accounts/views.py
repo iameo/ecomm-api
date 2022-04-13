@@ -1,4 +1,3 @@
-from yaml import serialize
 from .models import ProductBuyer, ProductManager, SellerRating, CustomUser
 from .serializers import ProductSellerSerializer, ProductBuyerSerializer, RateSellerSerializer
 from .auth_serializers import CustomerRegistrationSerializer, SellerRegistrationSerializer, MyTokenObtainPairSerializer
