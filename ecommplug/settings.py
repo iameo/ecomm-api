@@ -203,3 +203,5 @@ SIMPLE_JWT = {
 SWAGGER_SETTINGS = {
    'USE_SESSION_AUTH': False,
 }
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
