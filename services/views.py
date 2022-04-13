@@ -1,6 +1,3 @@
-
-from matplotlib.style import context
-
 from accounts.models import ProductManager
 from .models import Product, ProductOrder
 from .serializers import (
