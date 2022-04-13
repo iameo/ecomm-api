@@ -8,6 +8,8 @@ from rest_framework.permissions import AllowAny
 
 from utils import calculate_age
 
+
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     """TOKEN-Tolkien"""
     @classmethod
