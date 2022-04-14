@@ -18,7 +18,7 @@ ___
 
 
 
-### ENDPOINTS (Localhost, for now)
+### ENDPOINTS (Localhost, for now) - ([live link here: ](https://e-commx.herokuapp.com/swagger/) DB not migrated yet)
 ___
 ##### ACCOUNTS:
 {{domain}}: http://127.0.0.1:8000/api/accounts 
