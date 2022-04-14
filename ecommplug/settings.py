@@ -15,6 +15,8 @@ import os
 
 from datetime import timedelta
 
+import dj_database_url
+
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -46,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'whitenoise.runserver_nostatic',
     'rest_framework.authtoken',
     'drf_yasg',
     'rest_framework_simplejwt',
@@ -96,10 +99,12 @@ WSGI_APPLICATION = 'ecommplug.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR + os.getenv('DB', '/db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, os.getenv('DB', 'db.sqlite3')),
     }
 }
 
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -205,7 +210,8 @@ SWAGGER_SETTINGS = {
    'USE_SESSION_AUTH': False,
 }
 
-
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_URL = 'media/'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
