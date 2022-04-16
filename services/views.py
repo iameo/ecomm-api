@@ -13,6 +13,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.text import slugify
 from rest_framework import serializers
 
+from permissions import SellerProductEditOrCreate
 
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     """
@@ -31,7 +32,7 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
         slug = serializer.validated_data.get('slug', None)
         product_name = serializer.validated_data.get('name')
 
-        if quantity <= 0:
+        if quantity < 1:
             raise serializers.ValidationError("Product Quantity can not be less than 1")
 
         if slug is None:
